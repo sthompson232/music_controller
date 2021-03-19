@@ -1,13 +1,10 @@
 from django.shortcuts import render
-from django.http import JsonResponse
-
 from rest_framework import generics, status
-from rest_framework.views import APIView
-from rest_framework.response import Response
-
 from .serializers import RoomSerializer, CreateRoomSerializer, UpdateRoomSerializer
 from .models import Room
-
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -36,6 +33,7 @@ class GetRoom(APIView):
 
 class JoinRoom(APIView):
     lookup_url_kwarg = 'code'
+
     def post(self, request, format=None):
         if not self.request.session.exists(self.request.session.session_key):
             self.request.session.create()
@@ -112,7 +110,7 @@ class UpdateRoom(APIView):
 
     def patch(self, request, format=None):
         if not self.request.session.exists(self.request.session.session_key):
-                self.request.session.create()
+            self.request.session.create()
 
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
@@ -134,4 +132,4 @@ class UpdateRoom(APIView):
             room.save(update_fields=['guest_can_pause', 'votes_to_skip'])
             return Response(RoomSerializer(room).data, status=status.HTTP_200_OK)
 
-        return Response({'Bad Request': 'Invalid Data...'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'Bad Request': "Invalid Data..."}, status=status.HTTP_400_BAD_REQUEST)

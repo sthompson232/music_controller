@@ -1,19 +1,16 @@
 import React, { Component } from "react";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
 import { Link } from "react-router-dom";
-import { 
-  FormControlLabel, 
-  RadioGroup, 
-  Radio, 
-  FormControl, 
-  FormHelperText, 
-  TextField, 
-  Typography, 
-  Grid, 
-  Button, 
-  Collapse 
-} from "@material-ui/core";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import { Collapse } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
-
 
 export default class CreateRoomPage extends Component {
   static defaultProps = {
@@ -72,18 +69,17 @@ export default class CreateRoomPage extends Component {
       body: JSON.stringify({
         votes_to_skip: this.state.votesToSkip,
         guest_can_pause: this.state.guestCanPause,
-        code: this.props.roomCode
+        code: this.props.roomCode,
       }),
     };
-    fetch("/api/update-room", requestOptions)
-    .then((response) => {
+    fetch("/api/update-room", requestOptions).then((response) => {
       if (response.ok) {
         this.setState({
-          successMsg: "Room updated successfully!"
+          successMsg: "Room updated successfully!",
         });
       } else {
         this.setState({
-          errorMsg: "Error updating room..."
+          errorMsg: "Error updating room...",
         });
       }
       this.props.updateCallback();
@@ -122,33 +118,36 @@ export default class CreateRoomPage extends Component {
           Update Room
         </Button>
       </Grid>
-    )
+    );
   }
 
   render() {
-    const title = this.props.update ? "Update Room" : "Create a Room"
+    const title = this.props.update ? "Update Room" : "Create a Room";
+
     return (
       <Grid container spacing={1}>
         <Grid item xs={12} align="center">
-          <Collapse in={this.state.errorMsg != "" || this.state.successMsg != ""}>
-            {this.state.successMsg != "" 
-            ? (
-            <Alert 
-            severity="success" 
-            onClose={() => {
-              this.setState({successMsg: ""});
-            }}
-            >
-              {this.state.successMsg}
+          <Collapse
+            in={this.state.errorMsg != "" || this.state.successMsg != ""}
+          >
+            {this.state.successMsg != "" ? (
+              <Alert
+                severity="success"
+                onClose={() => {
+                  this.setState({ successMsg: "" });
+                }}
+              >
+                {this.state.successMsg}
               </Alert>
             ) : (
-            <Alert 
-            severity="error">{this.state.errorMsg}
-            onClose={() => {
-              this.setState({errorMsg: ""});
-            }}
-              {this.state.errorMsg}
-            </Alert>
+              <Alert
+                severity="error"
+                onClose={() => {
+                  this.setState({ errorMsg: "" });
+                }}
+              >
+                {this.state.errorMsg}
+              </Alert>
             )}
           </Collapse>
         </Grid>
@@ -199,9 +198,9 @@ export default class CreateRoomPage extends Component {
             </FormHelperText>
           </FormControl>
         </Grid>
-        {this.props.update 
-        ? this.renderUpdateButtons() 
-        : this.renderCreateButtons()}
+        {this.props.update
+          ? this.renderUpdateButtons()
+          : this.renderCreateButtons()}
       </Grid>
     );
   }

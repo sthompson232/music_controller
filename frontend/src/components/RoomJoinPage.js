@@ -7,7 +7,7 @@ export default class RoomJoinPage extends Component {
     super(props);
     this.state = {
       roomCode: "",
-      error: ""
+      error: "",
     };
     this.handleTextFieldChange = this.handleTextFieldChange.bind(this);
     this.roomButtonPressed = this.roomButtonPressed.bind(this);
@@ -22,7 +22,7 @@ export default class RoomJoinPage extends Component {
           </Typography>
         </Grid>
         <Grid item xs={12} align="center">
-          <TextField 
+          <TextField
             error={this.state.error}
             label="Code"
             placeholder="Enter a Room Code"
@@ -33,7 +33,11 @@ export default class RoomJoinPage extends Component {
           />
         </Grid>
         <Grid item xs={12} align="center">
-          <Button variant="contained" color="primary" onClick={this.roomButtonPressed}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={this.roomButtonPressed}
+          >
             Enter Room
           </Button>
         </Grid>
@@ -50,25 +54,26 @@ export default class RoomJoinPage extends Component {
     this.setState({
       roomCode: e.target.value,
     });
-  } 
+  }
 
   roomButtonPressed() {
     const requestOptions = {
       method: "POST",
-      headers: {"Content_Type": "application/json"},
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        code: this.state.roomCode
-      })
+        code: this.state.roomCode,
+      }),
     };
-    fetch('/api/join-room', requestOptions)
-    .then((response) => {
-      if (response.ok) {
-        this.props.history.push(`/room/${this.state.roomCode}`)
-      } else {
-        this.setState({error: "Room not found."})
-      }
-    }).catch((error) => {
-      console.log(error);
-    });
+    fetch("/api/join-room", requestOptions)
+      .then((response) => {
+        if (response.ok) {
+          this.props.history.push(`/room/${this.state.roomCode}`);
+        } else {
+          this.setState({ error: "Room not found." });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 }
