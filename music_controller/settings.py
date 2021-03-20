@@ -14,7 +14,7 @@ from pathlib import Path
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
@@ -26,7 +26,7 @@ SECRET_KEY = 'whfxmu35o6%2)9z71og9*efq^7++so1%@i-nwekkj2d8&fi=$t'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -43,6 +43,12 @@ INSTALLED_APPS = [
     'frontend.apps.FrontendConfig',
     'spotify.apps.SpotifyConfig',
     'main.apps.MainConfig',
+
+    # 'crispy_forms',
+    # 'django_cleanup',
+    # 'captcha',
+    # 'ckeditor',
+    # 'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
@@ -82,7 +88,7 @@ WSGI_APPLICATION = 'music_controller.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -124,6 +130,42 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
-]
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+LOGIN_REDIRECT_URL = 'login-redirect'
+LOGIN_URL = 'login'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'noreply.troubadorwebsites@gmail.com'
+# EMAIL_HOST_PASSWORD = 'oilyobhqlsqsatzz'
+
+
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+}
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': [
+            ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', 'TextColor', 'BGColor', '-', 'NumberedList', 'BulletedList', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'Table', 'Smiley', 'SpecialChar', 'About'],
+            [ 'Styles', 'Format', 'Font', 'FontSize']
+        ],
+        'height': '100%',
+        'width': '100%',
+    },
+}
+
+# PAYPAL_TEST = True
+# PAYPAL_RECEIVER_EMAIL = "sb-avagr4906252@business.example.com"
+# PAYPAL_BUY_BUTTON_IMAGE = 'http://127.0.0.1:8000/static/images/paypal.jpg'
