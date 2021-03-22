@@ -4,8 +4,8 @@ const webpack = require("webpack");
 module.exports = {
   entry: "./src/index.js",
   output: {
-    path: path.resolve(__dirname, "./static/frontend"),
-    filename: "[name].js",
+    path: path.resolve(__dirname, "../static/js"),
+    filename: "react.js",
   },
   module: {
     rules: [
